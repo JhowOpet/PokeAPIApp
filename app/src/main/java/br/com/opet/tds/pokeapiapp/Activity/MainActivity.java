@@ -1,8 +1,11 @@
 package br.com.opet.tds.pokeapiapp.Activity;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+
+import java.io.File;
 
 import br.com.opet.tds.pokeapiapp.Model.Pokemon;
 import br.com.opet.tds.pokeapiapp.R;
@@ -31,6 +36,7 @@ public class MainActivity extends Activity {
     private TextView textHeight;
     private TextView textWeight;
     private TextView textTypes;
+    private ImageView foto;
 
     private ProgressBar progressBar;
 
@@ -45,6 +51,7 @@ public class MainActivity extends Activity {
         textWeight = findViewById(R.id.textWeight);
         textTypes = findViewById(R.id.textTypes);
         progressBar = findViewById(R.id.progressConnection);
+        foto = findViewById(R.id.foto);
 
         GsonBuilder builder = new GsonBuilder();
         gson = builder.create();
@@ -67,6 +74,18 @@ public class MainActivity extends Activity {
             textName.setText(pokemon.getName());
             textHeight.setText(String.valueOf(pokemon.getHeight()));
             textWeight.setText(String.valueOf(pokemon.getWeight()));
+
+            File imgFile = new  File(String.valueOf(pokemon.getSprites().getBack_default()));
+
+            Log.d("Back_Default: ", pokemon.getSprites().getBack_default());
+
+            //if(imgFile.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                foto.setImageBitmap(myBitmap);
+
+            //}
 
             String stypes = "";
             for(Pokemon.Types types : pokemon.getTypes()){
